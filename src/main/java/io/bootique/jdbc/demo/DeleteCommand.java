@@ -9,16 +9,16 @@ import io.bootique.jdbc.DataSourceFactory;
 import io.bootique.meta.application.CommandMetadata;
 
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class SelectCommand extends CommandWithMetadata {
+public class DeleteCommand extends CommandWithMetadata {
+
     private Provider<DataSourceFactory> dataSource;
 
     @Inject
-    public SelectCommand(Provider<DataSourceFactory> dataSource) {
-        super(CommandMetadata.builder(SelectCommand.class).description("Demo command to select data.").build());
+    public DeleteCommand(Provider<DataSourceFactory> dataSource) {
+        super(CommandMetadata.builder(DeleteCommand.class).description("Demo command to delete data.").build());
         this.dataSource = dataSource;
     }
 
@@ -27,10 +27,8 @@ public class SelectCommand extends CommandWithMetadata {
         try (Connection connection = dataSource.get().forName("DerbyDatabase").getConnection()) {
 
             try (Statement statement = connection.createStatement()) {
-                ResultSet rs = statement.executeQuery("SELECT * FROM TEST WHERE ID=1");
-                while (rs.next()) {
-                    System.out.println(String.format("The text in selected row is: %s", rs.getString("name")));
-                }
+                String deleteSQL = "DELETE FROM TEST WHERE ID=1";
+                statement.execute(deleteSQL);
             }
 
         } catch (SQLException e) {

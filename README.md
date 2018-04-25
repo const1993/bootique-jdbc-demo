@@ -37,6 +37,9 @@ OPTIONS
   -H, --help-config
        Prints information about application modules and their configuration options.
 
+  -t, --create-table
+      Demo command to create table.
+
   -i, --insert
        Demo command to insert data.
 
@@ -44,26 +47,38 @@ OPTIONS
        Demo command to select data.
 ```
 
-Provide required configuration via *config.yml*:
+Provide required configuration via *config.yml*. Uncomment 'type' to use hikariCP :
 ```yaml  
 jdbc:
   DerbyDatabase:
     jdbcUrl: jdbc:derby:target/derby/DerbyDatabase;create=true
     username: sa
+    #type: hikari
 ```
 
-Run custom command *--insert* to create a table:
+Run custom command *--create-table* to create a table:
 ```bash
-java -jar target/bootique.jdbc.demo-1.0-SNAPSHOT.jar -c config.yml -i
-```    
-Check data via *--select* command:
-```bash    
-java -jar target/bootique.jdbc.demo-1.0-SNAPSHOT.jar -c config.yml -s
+java -jar target/bootique.jdbc.demo-1.0-SNAPSHOT.jar -c config.yml -t
 ```
 
-New table "TEST" data is successfully created:   
+
+Run custom command via *--insert* command to insert data in table:
+```bash    
+java -jar target/bootique.jdbc.demo-1.0-SNAPSHOT.jar -c config.yml -i
+```
+
+Check data via *--select* command:
+```bash
+java -jar target/bootique.jdbc.demo-1.0-SNAPSHOT.jar -c config.yml -d
+```
+
+Show created row with text 'The Row':
 ```    
 ...
-   The table TEST is successfully created
+   The text in selected row is: The Row
 ```
 
+Delete data via *--delete* command:
+```bash
+java -jar target/bootique.jdbc.demo-1.0-SNAPSHOT.jar -c config.yml -d
+```

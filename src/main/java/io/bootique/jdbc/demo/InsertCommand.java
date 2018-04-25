@@ -27,12 +27,8 @@ public class InsertCommand extends CommandWithMetadata {
         try (Connection connection = dataSource.get().forName("DerbyDatabase").getConnection()) {
 
             try (Statement statement = connection.createStatement()) {
-
-                String createTableSQL = "CREATE TABLE TEST\n" +
-                        "    (ID INT PRIMARY KEY,\n" +
-                        "    NAME VARCHAR(12))";
-
-                statement.execute(createTableSQL);
+                String insertRowSQL = "INSERT INTO TEST (ID, NAME) VALUES (1, 'The Row')";
+                statement.execute(insertRowSQL);
             }
 
         } catch (SQLException e) {

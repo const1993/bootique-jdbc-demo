@@ -2,3 +2,4 @@ jdbc:
   DerbyDatabase:
     jdbcUrl: jdbc:derby:target/derby/DerbyDatabase;create=true
     username: sa
+#    type: hikari

@@ -12,6 +12,10 @@ public class Application implements Module {
 
     @Override
     public void configure(Binder binder) {
-        BQCoreModule.extend(binder).addCommand(InsertCommand.class).addCommand(SelectCommand.class);
+        BQCoreModule.extend(binder)
+                .addCommand(DeleteCommand.class)
+                .addCommand(CreateTableCommand.class)
+                .addCommand(InsertCommand.class)
+                .addCommand(SelectCommand.class);
     }
 }

@@ -9,16 +9,16 @@ import io.bootique.jdbc.DataSourceFactory;
 import io.bootique.meta.application.CommandMetadata;
 
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class SelectCommand extends CommandWithMetadata {
+public class CreateTableCommand extends CommandWithMetadata {
+
     private Provider<DataSourceFactory> dataSource;
 
     @Inject
-    public SelectCommand(Provider<DataSourceFactory> dataSource) {
-        super(CommandMetadata.builder(SelectCommand.class).description("Demo command to select data.").build());
+    public CreateTableCommand(Provider<DataSourceFactory> dataSource) {
+        super(CommandMetadata.builder(CreateTableCommand.class).shortName('t').description("Demo command to create table.").build());
         this.dataSource = dataSource;
     }
 
@@ -27,10 +27,8 @@ public class SelectCommand extends CommandWithMetadata {
         try (Connection connection = dataSource.get().forName("DerbyDatabase").getConnection()) {
 
             try (Statement statement = connection.createStatement()) {
-                ResultSet rs = statement.executeQuery("SELECT * FROM TEST WHERE ID=1");
-                while (rs.next()) {
-                    System.out.println(String.format("The text in selected row is: %s", rs.getString("name")));
-                }
+                String createTableSQL = "CREATE TABLE TEST (ID INT PRIMARY KEY, NAME VARCHAR(12))";
+                statement.execute(createTableSQL);
             }
 
         } catch (SQLException e) {
